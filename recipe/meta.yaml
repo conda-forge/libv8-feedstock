@@ -1,5 +1,5 @@
 {% set name = "libv8" %}
-{% set version = "7.5.288.30" %}
+{% set version = "7.7.274" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: "https://github.com/v8/v8/archive/{{ version }}.tar.gz"
-    sha256: 29ea4776f841392a062ac9a4705f7d6d4505baa4dae7789138cb2aba31290e7c
+    sha256: 1e8de1e8e07dc0f877abae609c125f12f1d61ad161d7e4a082dc3532c3d74310
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/Homebrew/homebrew-core/blob/2a8b9b60c832d25c8b2013d641e49a886ccbe0f7/Formula/v8.rb
   - url: "https://chromium.googlesource.com/chromium/src/build.git/+archive/a0b2e3b2708bcf81ec00ac1738b586bcc5e04eea.tar.gz"
