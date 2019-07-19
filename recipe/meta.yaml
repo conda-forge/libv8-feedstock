@@ -26,7 +26,7 @@ source:
       - third_party-icu-use-system-icu.diff
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 requirements:
