@@ -7,7 +7,7 @@ package:
 
 source:
   - url: "https://github.com/v8/v8/archive/{{ version }}.tar.gz"
-    sha256: 50abe8a1e350db3c3bd385abd26851c055b841aee4982b38d1ed167bad6c17d2
+    sha256: 67d9b135942f6919eb0f584c5c92d9a71ca8654d36a2b54456616a20e23984ec
   # We tarballs but don't add sha256s as they are different on every download.
   # Hashes from https://github.com/v8/v8/blob/7.8.87/DEPS
   - url: "https://chromium.googlesource.com/chromium/src/build.git/+archive/f3d0ca5f46b7b190dbbdc6be508ca11dd5c54302.tar.gz"
