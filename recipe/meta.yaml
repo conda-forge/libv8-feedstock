@@ -38,6 +38,7 @@ requirements:
     - clangdev  # [osx]
     - gn
     - python <3
+    - setuptools
     - ninja
   host:
     - glib
