@@ -33,9 +33,8 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}  # [not osx]
-    - {{ compiler('cxx') }}  # [not osx]
-    - clangdev  # [osx]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - gn
     - python <3
     - setuptools
@@ -45,6 +44,8 @@ requirements:
     - icu =64.2
   run:
     - icu =64.2
+  run_constrained:  # [osx]
+    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx]
 
 test:
   commands:
