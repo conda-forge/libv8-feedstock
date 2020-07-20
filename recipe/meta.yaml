@@ -12,6 +12,8 @@ source:
   # Sychronized hashes from https://github.com/Homebrew/homebrew-core/blob/2a8b9b60c832d25c8b2013d641e49a886ccbe0f7/Formula/v8.rb
   - url: "https://chromium.googlesource.com/chromium/src/build.git/+archive/1b904cc30093c25d5fd48389bd58e3f7409bcf80.tar.gz"
     folder: build
+    patches:
+      - build-remove-compiler-warning.patch
   - url: "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/3f90fa05c85718505e28c9c3426c1ba52843b9b7.tar.gz"
     folder: third_party/jinja2
   - url: "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/8f45f5cfa0009d2a70589bcda0349b8cb2b72783.tar.gz"
