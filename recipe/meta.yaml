@@ -45,9 +45,7 @@ requirements:
     - ninja
   host:
     - glib
-    - icu 67
-  run:
-    - icu 67
+    - icu
 
 test:
   commands:
