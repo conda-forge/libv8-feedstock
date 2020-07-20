@@ -1,0 +1,16 @@
+--- config.gni	2020-07-20 16:59:16.000000000 +0200
++++ config.gni	2020-07-20 16:59:35.000000000 +0200
+@@ -9,4 +9,13 @@
+   # If true, compile icu into a standalone static library. Currently this is
+   # only useful on Chrome OS.
+   icu_disable_thin_archive = false
++
++  # Tells that the system version of ICU should be used
++  icu_use_system = false
++
++  # Include directory for system ICU
++  icu_include_dir = "/usr/include/"
++
++  # System library directory for system ICU
++  icu_lib_dir = "/usr/lib"
+ }
