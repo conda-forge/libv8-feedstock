@@ -42,6 +42,7 @@ requirements:
     - {{ compiler('cxx') }}
     - gn
     - python <3
+    - setuptools
     - ninja
   host:
     - glib
