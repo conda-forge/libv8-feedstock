@@ -19,5 +19,6 @@ ninja -C out.gn
 
 mkdir -p $PREFIX/lib
 cp out.gn/libv8*${SHLIB_EXT} $PREFIX/lib
+cp out.gn/libchrome_zlib${SHLIB_EXT} $PREFIX/lib
 mkdir -p $PREFIX/include
 cp -r include/* $PREFIX/include/
