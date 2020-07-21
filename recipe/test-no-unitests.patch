@@ -1,0 +1,33 @@
+--- BUILD.gn	2020-07-21 08:33:04.000000000 +0200
++++ BUILD.gn	2020-07-21 09:13:30.000000000 +0200
+@@ -1603,7 +1603,6 @@
+ v8_source_set("v8_initializers") {
+   visibility = [
+     ":*",
+-    "test/cctest:*",
+   ]
+ 
+   deps = [
+@@ -4363,10 +4362,8 @@
+ 
+   deps = [
+     ":d8",
+-    ":v8_fuzzers",
+     ":v8_hello_world",
+     ":v8_sample_process",
+-    "test:gn_all",
+     "tools:gn_all",
+   ]
+ 
+@@ -4404,11 +4401,6 @@
+   testonly = true
+ 
+   deps = [ ":d8" ]
+-
+-  if (!is_win) {
+-    # On windows, cctest doesn't link with v8_static_library.
+-    deps += [ "test/cctest:cctest" ]
+-  }
+ }
+ 
+ # TODO(dglazkov): Remove the "!build_with_chromium" condition once this clause

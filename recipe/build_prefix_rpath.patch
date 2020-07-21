@@ -1,0 +1,11 @@
+build_prefix_rpath.patch--- config/mac/BUILD.gn	2020-07-20 21:04:16.000000000 +0200
++++ config/mac/BUILD.gn	2020-07-20 21:04:58.000000000 +0200
+@@ -83,6 +83,8 @@
+       # Path for loading shared libraries for bundled binaries. Get back from
+       # Binary.app/Contents/MacOS.
+       "-Wl,-rpath,@loader_path/../../..",
++
++      "-Wl,-rpath,@PREFIX@/lib",
+     ]
+   }
+ }
