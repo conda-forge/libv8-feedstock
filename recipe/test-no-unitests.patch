@@ -1,18 +1,33 @@
---- test/BUILD.gn	2020-07-20 21:29:09.000000000 +0200
-+++ test/BUILD.gn	2020-07-20 21:29:39.000000000 +0200
-@@ -25,15 +25,6 @@
-     "mkgrokdump:mkgrokdump",
-     "wasm-api-tests:wasm_api_tests",
+--- BUILD.gn	2020-07-21 08:33:04.000000000 +0200
++++ BUILD.gn	2020-07-21 09:13:30.000000000 +0200
+@@ -1603,7 +1603,6 @@
+ v8_source_set("v8_initializers") {
+   visibility = [
+     ":*",
+-    "test/cctest:*",
    ]
+ 
+   deps = [
+@@ -4363,10 +4362,8 @@
+ 
+   deps = [
+     ":d8",
+-    ":v8_fuzzers",
+     ":v8_hello_world",
+     ":v8_sample_process",
+-    "test:gn_all",
+     "tools:gn_all",
+   ]
+ 
+@@ -4404,11 +4401,6 @@
+   testonly = true
+ 
+   deps = [ ":d8" ]
 -
--  if (host_os != "mac" || !is_android) {
--    # These items don't compile for Android on Mac.
--    deps += [
--      "cctest:cctest",
--      "cctest:generate-bytecode-expectations",
--      "unittests:unittests",
--    ]
+-  if (!is_win) {
+-    # On windows, cctest doesn't link with v8_static_library.
+-    deps += [ "test/cctest:cctest" ]
 -  }
  }
  
- ###############################################################################
+ # TODO(dglazkov): Remove the "!build_with_chromium" condition once this clause
