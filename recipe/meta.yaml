@@ -10,9 +10,10 @@ source:
     sha256: 404882d3428d72a27cf25060ebfb79091eee1c1a8ba8b53041f7a14edcc35148
     patches:
       - test-no-unitests.patch
-  # We tarballs but don't add sha256s as they are different on every download.
+  # We use tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/Homebrew/homebrew-core/blob/2a8b9b60c832d25c8b2013d641e49a886ccbe0f7/Formula/v8.rb
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/1b904cc30093c25d5fd48389bd58e3f7409bcf80.tar.gz
+  # Hashes can also be retrieved from https://github.com/v8/v8/blob/8.6.214/DEPS
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/e2b8e15a06b8f8249fc09426225242139dafc994.tar.gz
     folder: build
     patches:
       - build-remove-compiler-warning.patch
@@ -21,13 +22,13 @@ source:
     folder: third_party/jinja2
   - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/8f45f5cfa0009d2a70589bcda0349b8cb2b72783.tar.gz
     folder: third_party/markupsafe
-  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/a09ea700d32bab83325aff9ff34d0582e50e3997.tar.gz
+  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/4fe018038f87675c083d0cfb6a6b57c274fb1753.tar.gz
     folder: third_party/googletest/src
-  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/dab187b372fc17e51f5b9fad8201813d0aed5129.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/23ef5333a357fc7314630ef88b44c3a545881dee.tar.gz
     folder: base/trace_event/common
-  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/90fc47e6eed7bd1a59ad1603761303ef24705593.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/89bddfee9cf8fde3ab1212ed63bf03d76baf8914.tar.gz
     folder: third_party/zlib
-  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/f2223961702f00a8833874b0560d615a2cc42738.tar.gz
+  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/79326efe26e5440f530963704c3c0ff965b3a4ac.tar.gz
     folder: third_party/icu
     patches:
       - icu-build.patch
@@ -43,7 +44,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - gn
+    - gn 0.0.20200720112859
     - python <3
     - setuptools
     - ninja
