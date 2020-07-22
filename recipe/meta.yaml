@@ -1,40 +1,40 @@
 {% set name = "libv8" %}
-{% set version = "8.4.371.19" %}
+{% set version = "8.4.371.20" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: "https://github.com/v8/v8/archive/{{ version }}.tar.gz"
-    sha256: cef6d0383a8ee8278e9c67fbd79c16141ce079693744b295c2040763089c9dd0
+  - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
+    sha256: f94bfba57c3bb7ece73754126184ba1b3e7c372f34afc34425dd898b65646193
     patches:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/Homebrew/homebrew-core/blob/2a8b9b60c832d25c8b2013d641e49a886ccbe0f7/Formula/v8.rb
-  - url: "https://chromium.googlesource.com/chromium/src/build.git/+archive/1b904cc30093c25d5fd48389bd58e3f7409bcf80.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/1b904cc30093c25d5fd48389bd58e3f7409bcf80.tar.gz
     folder: build
     patches:
       - build-remove-compiler-warning.patch
       - build_prefix_rpath.patch  # [osx]
-  - url: "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/3f90fa05c85718505e28c9c3426c1ba52843b9b7.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/3f90fa05c85718505e28c9c3426c1ba52843b9b7.tar.gz
     folder: third_party/jinja2
-  - url: "https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/8f45f5cfa0009d2a70589bcda0349b8cb2b72783.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/8f45f5cfa0009d2a70589bcda0349b8cb2b72783.tar.gz
     folder: third_party/markupsafe
-  - url: "https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/a09ea700d32bab83325aff9ff34d0582e50e3997.tar.gz"
+  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/a09ea700d32bab83325aff9ff34d0582e50e3997.tar.gz
     folder: third_party/googletest/src
-  - url: "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/dab187b372fc17e51f5b9fad8201813d0aed5129.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/dab187b372fc17e51f5b9fad8201813d0aed5129.tar.gz
     folder: base/trace_event/common
-  - url: "https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/90fc47e6eed7bd1a59ad1603761303ef24705593.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/90fc47e6eed7bd1a59ad1603761303ef24705593.tar.gz
     folder: third_party/zlib
-  - url: "https://chromium.googlesource.com/chromium/deps/icu.git/+archive/f2223961702f00a8833874b0560d615a2cc42738.tar.gz"
+  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/f2223961702f00a8833874b0560d615a2cc42738.tar.gz
     folder: third_party/icu
     patches:
       - icu-build.patch
       - icu-config.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('libv8', max_pin="x.x.x") }}
@@ -60,7 +60,7 @@ about:
   license: BSD-3-clause
   license_family: BSD
   license_file: LICENSE
-  summary: 'V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++.'
+  summary: V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++.
   dev_url: https://chromium.googlesource.com/v8/v8.git
 
 extra:
