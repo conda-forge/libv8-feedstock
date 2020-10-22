@@ -18,8 +18,8 @@ icu:
 - '67'
 macos_machine:
 - x86_64-apple-darwin13.4.0
-macos_min_version:
-- '10.9'
-pin_run_as_build:
-  icu:
-    max_pin: x
+target_platform:
+- osx-64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
