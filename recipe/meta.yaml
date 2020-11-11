@@ -48,6 +48,7 @@ requirements:
     - python <3
     - setuptools
     - ninja
+    - pkg-config
   host:
     - glib
     - icu
@@ -58,7 +59,7 @@ test:
 
 about:
   home: https://v8.dev/
-  license: BSD-3-clause
+  license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++.
