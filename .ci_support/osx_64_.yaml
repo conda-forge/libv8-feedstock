@@ -15,7 +15,7 @@ cxx_compiler_version:
 glib:
 - 2.64.6
 icu:
-- '67'
+- '68'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 target_platform:

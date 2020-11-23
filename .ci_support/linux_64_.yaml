@@ -17,7 +17,7 @@ docker_image:
 glib:
 - 2.64.6
 icu:
-- '67'
+- '68'
 target_platform:
 - linux-64
 zip_keys:
