@@ -49,7 +49,7 @@ requirements:
     - pkg-config
   host:
     - glib
-    - icu 68
+    - icu
 
 test:
   commands:
