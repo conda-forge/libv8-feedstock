@@ -1,5 +1,5 @@
 {% set name = "libv8" %}
-{% set version = "8.9.15" %}
+{% set version = "8.9.21" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: df5889e11f53dedb1d703ed640035c7a9534c182eba8ec08cfef7f78ec9e4ace
+    sha256: 7d96312874c649bb07a7d663a3c4f2e4e4e805d8709498d93dd2d9341c64aeb9
     patches:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/944fd7069e84ae9c902c5c24c01ddcb693c2a7b4.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/26db078eafe5caf753cb348ac771120681cca0cc.tar.gz
     folder: build
     patches:
       - build_prefix_rpath.patch  # [osx]
@@ -49,7 +49,7 @@ requirements:
     - pkg-config
   host:
     - glib
-    - icu
+    - icu 68
 
 test:
   commands:
