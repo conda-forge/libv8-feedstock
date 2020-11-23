@@ -33,7 +33,7 @@ source:
       - icu-config.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('libv8', max_pin="x.x.x") }}
