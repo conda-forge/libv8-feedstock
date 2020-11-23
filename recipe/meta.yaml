@@ -1,5 +1,5 @@
 {% set name = "libv8" %}
-{% set version = "8.9.21" %}
+{% set version = "8.9.36" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: 7d96312874c649bb07a7d663a3c4f2e4e4e805d8709498d93dd2d9341c64aeb9
+    sha256: 6467cdcec455ba309119ec80e71cb56be4fe067cdd459e2093d134a8144dd707
     patches:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
