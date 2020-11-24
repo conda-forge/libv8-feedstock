@@ -12,7 +12,7 @@ source:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/26db078eafe5caf753cb348ac771120681cca0cc.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/49ce9a35fc22efe144eb5bdad9233578eb69e003.tar.gz
     folder: build
     patches:
       - build_prefix_rpath.patch  # [osx]
@@ -24,7 +24,7 @@ source:
     folder: third_party/googletest/src
   - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/eb94f1c7aa96207f469008f29989a43feb2718f8.tar.gz
     folder: base/trace_event/common
-  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/e84c9a3fd75fdc39055b7ae27d6ec508e50bd39e.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/9893e506b3a7ea4ec68e1fcd9a374e849945f405.tar.gz
     folder: third_party/zlib
   - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/7db579a73addda0edb2bb83465ae51bcdc601af7.tar.gz
     folder: third_party/icu
