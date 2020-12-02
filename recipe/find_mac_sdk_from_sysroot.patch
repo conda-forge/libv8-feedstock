@@ -1,6 +1,6 @@
---- mac/find_sdk.py	2020-12-02 13:48:38.000000000 +0100
-+++ mac/find_sdk.py	2020-12-02 13:54:22.000000000 +0100
-@@ -57,15 +57,21 @@
+--- build/mac/find_sdk.py	2020-12-02 13:48:38.000000000 +0100
++++ build/mac/find_sdk.py	2020-12-02 14:18:16.000000000 +0100
+@@ -57,15 +57,20 @@
    min_sdk_version = args[0]
  
  
@@ -17,7 +17,6 @@
 +  if "Contents/Developer" in os.environ["CONDA_BUILD_SYSROOT"]:
 +      dev_dir = os.environ["CONDA_BUILD_SYSROOT"]
 +      dev_dir = dev_dir[:dev_dir.index("Contents/Developer") + len("Contents/Developer/")]
-+      print(dev_dir)
 +  else:
 +      job = subprocess.Popen(['xcode-select', '-print-path'],
 +                             stdout=subprocess.PIPE,
