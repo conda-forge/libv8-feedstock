@@ -1,0 +1,33 @@
+--- mac/find_sdk.py	2020-12-02 13:48:38.000000000 +0100
++++ mac/find_sdk.py	2020-12-02 13:54:22.000000000 +0100
+@@ -57,15 +57,21 @@
+   min_sdk_version = args[0]
+ 
+ 
+-  job = subprocess.Popen(['xcode-select', '-print-path'],
+-                         stdout=subprocess.PIPE,
+-                         stderr=subprocess.STDOUT)
+-  out, err = job.communicate()
+-  if job.returncode != 0:
+-    print(out, file=sys.stderr)
+-    print(err, file=sys.stderr)
+-    raise Exception('Error %d running xcode-select' % job.returncode)
+-  dev_dir = out.decode('UTF-8').rstrip()
++  dev_dir = os.environ["CONDA_BUILD_SYSROOT"]
++  if "Contents/Developer" in os.environ["CONDA_BUILD_SYSROOT"]:
++      dev_dir = os.environ["CONDA_BUILD_SYSROOT"]
++      dev_dir = dev_dir[:dev_dir.index("Contents/Developer") + len("Contents/Developer/")]
++      print(dev_dir)
++  else:
++      job = subprocess.Popen(['xcode-select', '-print-path'],
++                             stdout=subprocess.PIPE,
++                             stderr=subprocess.STDOUT)
++      out, err = job.communicate()
++      if job.returncode != 0:
++        print(out, file=sys.stderr)
++        print(err, file=sys.stderr)
++        raise Exception('Error %d running xcode-select' % job.returncode)
++      dev_dir = out.decode('UTF-8').rstrip()
+   sdk_dir = os.path.join(
+       dev_dir, 'Platforms/MacOSX.platform/Developer/SDKs')
+ 
