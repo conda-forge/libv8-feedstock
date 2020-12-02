@@ -8,7 +8,7 @@ set -x
 export LD_LIBRARY_PATH=$PREFIX/lib
 sed -ie 's/v8_enable_snapshot_compression = true/v8_enable_snapshot_compression = false/g' BUILD.gn
 
-if [[ $(uname) =~ .*Darwin.* ]]; then
+if [[ "${target_platform}" == "osx-64" ]]; then
   sed -ie "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
   cat <<EOF >build/config/gclient_args.gni
 use_custom_libcxx=false
@@ -32,7 +32,32 @@ EOF
   sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
   sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
 
-elif [[ $(uname) =~ .*Linux.* ]]; then
+elif [[ "${target_platform}" == "osx-arm64" ]]; then
+  sed -ie "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
+  cat <<EOF >build/config/gclient_args.gni
+use_custom_libcxx=false
+clang_use_chrome_plugins=false
+v8_use_external_startup_data=false
+is_debug=false
+clang_base_path="${BUILD_PREFIX}"
+mac_sdk_min="11.0"
+is_component_build=true
+mac_sdk_path="${CONDA_BUILD_SYSROOT}"
+icu_use_system=true
+icu_include_dir="$PREFIX/include"
+icu_lib_dir="$PREFIX/lib"
+enable_stripping=true
+checkout_google_benchmark=false
+EOF
+  gn gen out.gn "--args=target_cpu=\"arm64\" use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"11.0\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true"
+
+  # Manually override the compiler
+  sed -ie "s;bin/clang;bin/${CC};g" out.gn/toolchain.ninja
+
+  # Explicitly link to libz, otherwise _compressBound cannot be found
+  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
+  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
+elif [[ "${target_platform}" == "linux-*" ]]; then
   cat <<EOF >build/config/gclient_args.gni
 use_custom_libcxx=false
 clang_use_chrome_plugins=false

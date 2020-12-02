@@ -44,7 +44,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - gn 0.0.20200909083119
-    - python <3
+    - python 3.8
     - setuptools
     - ninja
     - pkg-config
