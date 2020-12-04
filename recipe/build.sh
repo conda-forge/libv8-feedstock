@@ -70,6 +70,9 @@ elif [[ "${target_platform}" =~ linux.* ]]; then
   for f in "out.gn/obj/mksnapshot.ninja out.gn/obj/v8.ninja out.gn/obj/wee8.ninja out.gn/obj/d8.ninja"; do
     sed -ie "s/libs = -latomic/libs = -lz -latomic/g" $f
   done
+
+  # [[nodiscard]] support in GCC 9 is not as good as in clang
+  sed -ie "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
 fi
 
 ninja -C out.gn v8
