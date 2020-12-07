@@ -78,7 +78,11 @@ elif [[ "${target_platform}" =~ linux.* ]]; then
   done
 fi
 
-ninja -C out.gn v8
+if [[ "${target_platform}" == "linux-ppc64le" ]]; then
+  ninja -C out.gn v8 -j 2
+else
+  ninja -C out.gn v8
+fi
 
 mkdir -p $PREFIX/lib
 cp out.gn/libv8*${SHLIB_EXT} $PREFIX/lib
