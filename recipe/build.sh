@@ -50,15 +50,10 @@ elif [[ "${target_platform}" =~ linux.* ]]; then
   echo 'fatal_linker_warnings=false'  >> build/config/gclient_args.gni
 
   gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true"
-  sed -i "s/ gcc/ ${HOST}-gcc/g" out.gn/toolchain.ninja
-  sed -i "s/ g++/ ${HOST}-g++/g" out.gn/toolchain.ninja
-  if [[ "${target_platform}" == "linux-aarch64" ]]; then
-    sed -i 's/deps = aarch64-conda-linux-gnu.*$//g' out.gn/toolchain.ninja
-  elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
-    sed -i 's/deps = powerpc64le-conda-linux-gnu.*$//g' out.gn/toolchain.ninja
-  else
-    sed -i 's/deps = x86_64-conda-linux-gnu.*$//g' out.gn/toolchain.ninja
-  fi
+  sed -i "s/ gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
+  sed -i "s/ g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
+  sed -i "s/deps = $(basename ${CC})\$//g" out.gn/toolchain.ninja
+  sed -i "s/deps = $(basename ${CXX})\$//g" out.gn/toolchain.ninja
   sed -i 's/-Werror//g' out.gn/**/*.ninja
 
   # ld.gold segfaults on mksnapshot linkage with binutils 2.35
