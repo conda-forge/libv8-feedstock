@@ -10,6 +10,7 @@ source:
     sha256: 8101bb87021212706cb0056deaad04bce8faaca54e5b5aa30397d23cc56cc107
     patches:
       - test-no-unitests.patch
+      - no-icf.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
   - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/6ca160d19873bc07a7e76f9d4bae4177bdef1c26.tar.gz
