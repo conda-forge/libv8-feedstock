@@ -1,5 +1,5 @@
---- build/config/compiler/BUILD.gn.orig	2021-03-30 16:23:48.000000000 +0200
-+++ build/config/compiler/BUILD.gn	2021-03-30 16:23:58.000000000 +0200
+--- config/compiler/BUILD.gn	2021-03-30 16:23:48.000000000 +0200
++++ config/compiler/BUILD.gn	2021-03-30 16:23:58.000000000 +0200
 @@ -447,10 +447,6 @@
      #}
    }
