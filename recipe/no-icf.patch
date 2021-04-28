@@ -1,0 +1,13 @@
+--- config/compiler/BUILD.gn	2021-03-30 16:23:48.000000000 +0200
++++ config/compiler/BUILD.gn	2021-03-30 16:23:58.000000000 +0200
+@@ -447,10 +447,6 @@
+     #}
+   }
+
+-  if (use_icf) {
+-    ldflags += [ "-Wl,--icf=all" ]
+-  }
+-
+   if (is_linux || is_chromeos) {
+     cflags += [ "-pthread" ]
+     # Do not use the -pthread ldflag here since it becomes a no-op
