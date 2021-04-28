@@ -17,6 +17,7 @@ source:
     patches:
       - build_prefix_rpath.patch  # [osx]
       - find_mac_sdk_from_sysroot.patch
+      - no-icf.patch
   - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/a82a4944a7f2496639f34a89c9923be5908b80aa.tar.gz
     folder: third_party/jinja2
   - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/0944e71f4b2cb9a871bcbe353f95e889b64a611a.tar.gz
