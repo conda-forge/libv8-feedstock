@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: cafc0d37d370cd3bfd54b1545a07d35ab5c2b7373cfb5064cb38878cea6634b8
+    sha256: 45076e20a3d89e1bc9ecd1e451cc864f44899b5e3fa223520ce5f5de1b68a839
     patches:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
