@@ -1,34 +1,34 @@
 {% set name = "libv8" %}
-{% set version = "8.9.83" %}
+{% set version = "10.2.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
+  - url: https://github.com/v8/v8/archive/refs/tags/{{ version }}.tar.gz
     sha256: 8101bb87021212706cb0056deaad04bce8faaca54e5b5aa30397d23cc56cc107
     patches:
       - test-no-unitests.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/6ca160d19873bc07a7e76f9d4bae4177bdef1c26.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/3444906fc96f38ef006babefe3ebbd77890c16cc.tar.gz
     folder: build
     patches:
       - build_prefix_rpath.patch  # [osx]
       - find_mac_sdk_from_sysroot.patch
       - no-icf.patch
-  - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/a82a4944a7f2496639f34a89c9923be5908b80aa.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/ee69aa00ee8536f61db6a451f3858745cf587de6.tar.gz
     folder: third_party/jinja2
-  - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/0944e71f4b2cb9a871bcbe353f95e889b64a611a.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/1b882ef6372b58bfd55a3285f37ed801be9137cd.tar.gz
     folder: third_party/markupsafe
-  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/4fe018038f87675c083d0cfb6a6b57c274fb1753.tar.gz
+  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/b007c54f2944e193ac44fba1bc997cb65826a0b9.tar.gz
     folder: third_party/googletest/src
-  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/eb94f1c7aa96207f469008f29989a43feb2718f8.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/d115b033c4e53666b535cbd1985ffe60badad082.tar.gz
     folder: base/trace_event/common
-  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/9893e506b3a7ea4ec68e1fcd9a374e849945f405.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/923f5eb4bfa403d0f14d9cbca2cdf7fa7416ee67.tar.gz
     folder: third_party/zlib
-  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/6a33b647c0647c3eb97eae5432153ef2dfca7baa.tar.gz
+  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/ea8c08d8783fceda86c19618694881149e23f305.tar.gz
     folder: third_party/icu
     patches:
       - icu-build.patch
