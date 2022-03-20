@@ -7,10 +7,10 @@ package:
 
 source:
   - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: 45076e20a3d89e1bc9ecd1e451cc864f44899b5e3fa223520ce5f5de1b68a839
+    sha256: d7c50ac97e17c13b27ffe362f50df918aa8afa1b4a7aeda6b6fd035ca89e329b
     patches:
       - test-no-unitests.patch
-  # We tarballs but don't add sha256s as they are different on every download.
+  # We use tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
   - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/6ca160d19873bc07a7e76f9d4bae4177bdef1c26.tar.gz
     folder: build
