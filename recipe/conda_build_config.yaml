@@ -1,7 +1,7 @@
 MACOSX_SDK_VERSION:        # [osx and x86_64]
   - "10.13"                # [osx and x86_64]
 
-c_compiler_version:
-  - 9
-cxx_compiler_version:
-  - 9
+c_compiler_version:        # [linux and x86_64]
+  - 9                      # [linux and x86_64]
+cxx_compiler_version:      # [linux and x86_64]
+  - 9                      # [linux and x86_64]
