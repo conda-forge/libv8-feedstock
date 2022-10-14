@@ -56,7 +56,6 @@ elif [[ "${target_platform}" == linux-* ]]; then
   sed -i "s/ ${HOST}-g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
   sed -i "s/deps = $(basename ${CC})\$//g" out.gn/toolchain.ninja
   sed -i "s/deps = $(basename ${CXX})\$//g" out.gn/toolchain.ninja
-  sed -i 's/-Werror//g' out.gn/**/*.ninja
 
   if [[ "${target_platform}" == "linux-aarch64" ]]; then
     sed -i "s/ aarch64-linux-gnu-gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
@@ -85,6 +84,8 @@ elif [[ "${target_platform}" == linux-* ]]; then
   # [[nodiscard]] support in GCC 9 is not as good as in clang
   sed -ie "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
 fi
+
+sed -i 's/-Werror//g' out.gn/**/*.ninja
 
 ninja -C out.gn v8
 

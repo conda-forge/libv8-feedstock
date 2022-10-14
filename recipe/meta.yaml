@@ -49,6 +49,7 @@ requirements:
     - setuptools
     - ninja
     - pkg-config
+    - sed
   host:
     - glib
     - icu
