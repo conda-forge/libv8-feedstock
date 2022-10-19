@@ -85,7 +85,7 @@ elif [[ "${target_platform}" == linux-* ]]; then
   sed -ie "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
 fi
 
-sed -i 's/-Werror//g' out.gn/**/*.ninja
+find out.gn -type f -name '*.ninja' -exec sed -i 's/-Werror//g' {} +
 
 ninja -C out.gn v8
 

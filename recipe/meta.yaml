@@ -49,6 +49,7 @@ requirements:
     - setuptools
     - ninja
     - pkg-config
+    - findutils
     - sed
   host:
     - glib
