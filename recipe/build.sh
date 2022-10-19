@@ -3,7 +3,7 @@ set -euo pipefail
 set -x
 
 export LD_LIBRARY_PATH=$PREFIX/lib
-sed -ie 's/v8_enable_snapshot_compression = true/v8_enable_snapshot_compression = false/g' BUILD.gn
+sed -i 's/v8_enable_snapshot_compression = true/v8_enable_snapshot_compression = false/g' BUILD.gn
 
 cat <<EOF >build/config/gclient_args.gni
 use_custom_libcxx=false
@@ -21,7 +21,7 @@ checkout_google_benchmark=false
 EOF
 
 if [[ "${target_platform}" =~ osx.* ]]; then
-  sed -ie "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
+  sed -i "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
   echo "mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\"" >> build/config/gclient_args.gni
 fi
 
@@ -30,19 +30,19 @@ if [[ "${target_platform}" == "osx-64" ]]; then
   gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"10.9\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true"
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
-  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
-  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
+  sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
+  sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
 
 elif [[ "${target_platform}" == "osx-arm64" ]]; then
   echo 'mac_sdk_min="11.0"' >> build/config/gclient_args.gni
   gn gen out.gn "--args=target_cpu=\"arm64\" use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"11.0\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true"
 
   # Manually override the compiler
-  sed -ie "s;bin/clang;bin/${CC};g" out.gn/toolchain.ninja
+  sed -i "s;bin/clang;bin/${CC};g" out.gn/toolchain.ninja
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
-  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
-  sed -ie "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
+  sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
+  sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
 elif [[ "${target_platform}" == linux-* ]]; then
   echo 'use_sysroot=false' >> build/config/gclient_args.gni
   echo 'is_clang=false' >> build/config/gclient_args.gni
@@ -71,18 +71,18 @@ elif [[ "${target_platform}" == linux-* ]]; then
     sed -i 's/--threads//g' $f
     sed -i 's/-fuse-ld=gold//g' $f
     sed -i 's/--thread-count=4//g' $f
-    if [[ "$f" != "out.gn/obj/v8_libbase.ninja" ]]; then
+    if [[ "$f" != "out.gn/obj/v8_libbase.ninja" ]]; then
       if [[ "$f" != "out.gn/obj/third_party/zlib/zlib.ninja" ]]; then
-        sed -ie "s/libs =/libs = -lz/g" $f
+        sed -i "s/libs =/libs = -lz/g" $f
       fi
     fi
   done
   for f in "out.gn/obj/mksnapshot.ninja out.gn/obj/v8.ninja out.gn/obj/wee8.ninja out.gn/obj/d8.ninja"; do
-    sed -ie "s/libs = -latomic/libs = -lz -latomic/g" $f
+    sed -i "s/libs = -latomic/libs = -lz -latomic/g" $f
   done
 
   # [[nodiscard]] support in GCC 9 is not as good as in clang
-  sed -ie "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
+  sed -i "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
 fi
 
 find out.gn -type f -name '*.ninja' -exec sed -i 's/-Werror//g' {} +
