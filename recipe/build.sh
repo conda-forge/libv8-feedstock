@@ -66,8 +66,8 @@ elif [[ "${target_platform}" == linux-* ]]; then
   fi
 
   # ld.gold segfaults on mksnapshot linkage with binutils 2.35
-  # for f in "out.gn/obj/bytecode_builtins_list_generator.ninja out.gn/obj/bytecode_builtins_list_generator.ninja out.gn/obj/v8.ninja out.gn/obj/v8_libbase.ninja out.gn/obj/v8_for_testing.ninja out.gn/obj/mksnapshot.ninja out.gn/obj/v8_simple_parser_fuzzer.ninja out.gn/obj/v8_simple_wasm_async_fuzzer.ninja out.gn/obj/v8_simple_wasm_fuzzer.ninja out.gn/obj/third_party/zlib/zlib.ninja out.gn/obj/cppgc_standalone.ninja"; do
-  for f in "$(ls out.gn/obj/*.ninja) out.gn/obj/third_party/zlib/zlib.ninja"; do
+  # for f in out.gn/obj/bytecode_builtins_list_generator.ninja out.gn/obj/bytecode_builtins_list_generator.ninja out.gn/obj/v8.ninja out.gn/obj/v8_libbase.ninja out.gn/obj/v8_for_testing.ninja out.gn/obj/mksnapshot.ninja out.gn/obj/v8_simple_parser_fuzzer.ninja out.gn/obj/v8_simple_wasm_async_fuzzer.ninja out.gn/obj/v8_simple_wasm_fuzzer.ninja out.gn/obj/third_party/zlib/zlib.ninja out.gn/obj/cppgc_standalone.ninja; do
+  for f in out.gn/obj/*.ninja out.gn/obj/third_party/zlib/zlib.ninja; do
     sed -i 's/--threads//g' $f
     sed -i 's/-fuse-ld=gold//g' $f
     sed -i 's/--thread-count=4//g' $f
@@ -77,7 +77,7 @@ elif [[ "${target_platform}" == linux-* ]]; then
       fi
     fi
   done
-  for f in "out.gn/obj/mksnapshot.ninja out.gn/obj/v8.ninja out.gn/obj/wee8.ninja out.gn/obj/d8.ninja"; do
+  for f in out.gn/obj/mksnapshot.ninja out.gn/obj/v8.ninja out.gn/obj/wee8.ninja out.gn/obj/d8.ninja; do
     sed -i "s/libs = -latomic/libs = -lz -latomic/g" $f
   done
 
@@ -85,10 +85,7 @@ elif [[ "${target_platform}" == linux-* ]]; then
   sed -i "s/# define V8_HAS_CPP_ATTRIBUTE_NODISCARD (V8_HAS_CPP_ATTRIBUTE(nodiscard))//g" include/v8config.h
 fi
 
-find out.gn -type f -name '*.ninja' -exec sed -i "
-    s|-Werror||g
-    s|^\s*ldflags = |&${LDFLAGS} |
-    " {} +
+find out.gn -type f -name '*.ninja' -exec sed -i "s|-Werror||g" {} +
 
 ninja -C out.gn v8
 
