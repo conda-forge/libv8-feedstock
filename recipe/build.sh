@@ -49,6 +49,16 @@ elif [[ "${target_platform}" == linux-* ]]; then
   echo 'treat_warnings_as_errors=false' >> build/config/gclient_args.gni
   echo 'fatal_linker_warnings=false'  >> build/config/gclient_args.gni
 
+  echo 'target_os="linux"'  >> build/config/gclient_args.gni
+  if [[ "${target_platform}" == "linux-aarch64" ]]; then
+    echo 'target_cpu=arm64'  >> build/config/gclient_args.gni
+    echo 'v8_target_cpu=arm64'  >> build/config/gclient_args.gni
+  elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+    echo 'host_byteorder="little"'  >> build/config/gclient_args.gni
+    echo 'target_cpu="ppc64"'  >> build/config/gclient_args.gni
+    echo 'v8_target_cpu="ppc64"'  >> build/config/gclient_args.gni
+  fi
+
   gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true"
   sed -i "s/ gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
   sed -i "s/ g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
