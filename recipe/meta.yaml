@@ -36,7 +36,7 @@ source:
 
 build:
   number: 2
-  skip: true  # [win]
+  skip: true  # [win or not (linux and (aarch64 or ppc64le))]
   run_exports:
     - {{ pin_subpackage('libv8', max_pin="x.x.x") }}
 
