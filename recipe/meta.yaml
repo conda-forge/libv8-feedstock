@@ -10,6 +10,7 @@ source:
     sha256: 8101bb87021212706cb0056deaad04bce8faaca54e5b5aa30397d23cc56cc107
     patches:
       - test-no-unitests.patch
+      - 0001-Allow-non-clang-snapshot-toolchain.patch
   # We tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
   - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/6ca160d19873bc07a7e76f9d4bae4177bdef1c26.tar.gz
@@ -18,6 +19,7 @@ source:
       - build_prefix_rpath.patch  # [osx]
       - find_mac_sdk_from_sysroot.patch
       - no-icf.patch
+      - 0001-Add-arm64-toolchain.patch
   - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/a82a4944a7f2496639f34a89c9923be5908b80aa.tar.gz
     folder: third_party/jinja2
   - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/0944e71f4b2cb9a871bcbe353f95e889b64a611a.tar.gz

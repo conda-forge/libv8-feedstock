@@ -1,0 +1,25 @@
+From ba727e6bc5778fd0889365c373971eb3a39a45f9 Mon Sep 17 00:00:00 2001
+From: Uwe Korn <uwelk@xhochy.com>
+Date: Mon, 12 Jun 2023 09:42:03 +0000
+Subject: [PATCH] Allow non-clang snapshot toolchain
+
+---
+ gni/snapshot_toolchain.gni | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gni/snapshot_toolchain.gni b/gni/snapshot_toolchain.gni
+index b5fb182..fa60507 100644
+--- a/gni/snapshot_toolchain.gni
++++ b/gni/snapshot_toolchain.gni
+@@ -71,7 +71,7 @@ if (v8_snapshot_toolchain == "") {
+     # cpu or a different target OS. Clang will always be used by default on the
+     # host, unless this is a ChromeOS build, in which case the same toolchain
+     # (Clang or GCC) will be used for target and host by default.
+-    if (is_chromeos && !is_clang) {
++    if (target_os == "linux" && !is_clang) {
+       _clang = ""
+     } else {
+       _clang = "clang_"
+-- 
+2.40.1
+
