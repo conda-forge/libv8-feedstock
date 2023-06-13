@@ -1,0 +1,34 @@
+From a7c46aadc1ed1892291078f8be041ee57b4b3423 Mon Sep 17 00:00:00 2001
+From: Uwe Korn <uwelk@xhochy.com>
+Date: Mon, 12 Jun 2023 09:42:03 +0000
+Subject: [PATCH] Allow non-clang snapshot toolchain
+
+---
+ gni/snapshot_toolchain.gni | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gni/snapshot_toolchain.gni b/gni/snapshot_toolchain.gni
+index b5fb182..33c657a 100644
+--- a/gni/snapshot_toolchain.gni
++++ b/gni/snapshot_toolchain.gni
+@@ -71,7 +71,7 @@ if (v8_snapshot_toolchain == "") {
+     # cpu or a different target OS. Clang will always be used by default on the
+     # host, unless this is a ChromeOS build, in which case the same toolchain
+     # (Clang or GCC) will be used for target and host by default.
+-    if (is_chromeos && !is_clang) {
++    if (target_os == "linux" && !is_clang) {
+       _clang = ""
+     } else {
+       _clang = "clang_"
+@@ -87,7 +87,7 @@ if (v8_snapshot_toolchain == "") {
+       } else {
+         _cpus = "x64_v8_${v8_current_cpu}"
+       }
+-    } else if (v8_current_cpu == "arm" || v8_current_cpu == "mipsel") {
++    } else if (v8_current_cpu == "ppc64" || v8_current_cpu == "arm" || v8_current_cpu == "mipsel") {
+       _cpus = "x86_v8_${v8_current_cpu}"
+     } else {
+       # This branch should not be reached; leave _cpus blank so the assert
+-- 
+2.25.1
+

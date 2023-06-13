@@ -49,7 +49,13 @@ elif [[ "${target_platform}" == linux-* ]]; then
   echo 'treat_warnings_as_errors=false' >> build/config/gclient_args.gni
   echo 'fatal_linker_warnings=false'  >> build/config/gclient_args.gni
 
-  gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true"
+  if [[ "${target_platform}" == "linux-aarch64" ]]; then
+    TARGET_CPU='target_cpu="arm64" v8_target_cpu="arm64"'
+  elif [[ "${target_platform}" == "linux-ppc64le" ]]; then
+    TARGET_CPU='target_cpu="ppc64" v8_target_cpu="ppc64" host_byteorder="little"'
+  fi
+
+  gn gen out.gn "--args=target_os=\"linux\" ${TARGET_CPU:-} use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true"
   sed -i "s/ gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
   sed -i "s/ g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
   sed -i "s/ ${HOST}-gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
@@ -73,7 +79,9 @@ elif [[ "${target_platform}" == linux-* ]]; then
     sed -i 's/--thread-count=4//g' $f
   done
   for f in out.gn/obj/mksnapshot.ninja out.gn/obj/v8.ninja out.gn/obj/wee8.ninja out.gn/obj/d8.ninja; do
-    sed -i "s/libs = -latomic/libs = -lz -latomic/g" $f
+    if [ -f "$f" ]; then
+      sed -i "s/libs = -latomic/libs = -lz -latomic/g" $f
+    fi
   done
 
   # [[nodiscard]] support in GCC 9 is not as good as in clang
