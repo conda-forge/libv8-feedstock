@@ -1,17 +1,43 @@
-From 818b38186cd1069b1935a1cb211e9a7237a64c07 Mon Sep 17 00:00:00 2001
+From e2957606192bc5a2f0fb8d32fc6b7e334cae9359 Mon Sep 17 00:00:00 2001
 From: Uwe Korn <uwelk@xhochy.com>
 Date: Mon, 12 Jun 2023 10:05:21 +0000
 Subject: [PATCH] Add arm64 toolchain
 
 ---
- toolchain/linux/BUILD.gn | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ toolchain/linux/BUILD.gn | 92 +++++++++++++++++++++++++++++++++-------
+ 1 file changed, 76 insertions(+), 16 deletions(-)
 
 diff --git a/toolchain/linux/BUILD.gn b/toolchain/linux/BUILD.gn
-index bbd9732..93a3ebd 100644
+index bbd9732..dc27857 100644
 --- a/toolchain/linux/BUILD.gn
 +++ b/toolchain/linux/BUILD.gn
-@@ -137,6 +137,25 @@ clang_toolchain("clang_x64_v8_arm64") {
+@@ -48,6 +48,25 @@ gcc_toolchain("arm64") {
+   }
+ }
+ 
++gcc_toolchain("ppc64") {
++  toolprefix = "powerpc64le-conda-linux-gnu-"
++
++  cc = "${toolprefix}gcc"
++  cxx = "${toolprefix}g++"
++
++  ar = "${toolprefix}ar"
++  ld = cxx
++  readelf = "${toolprefix}readelf"
++  nm = "${toolprefix}nm"
++
++  toolchain_args = {
++    current_cpu = "ppc64"
++    current_os = "linux"
++    is_clang = false
++    host_byteorder = "little"
++  }
++}
++
+ gcc_toolchain("arm") {
+   toolprefix = "arm-linux-gnueabihf-"
+ 
+@@ -137,6 +156,63 @@ clang_toolchain("clang_x64_v8_arm64") {
    }
  }
  
@@ -34,9 +60,70 @@ index bbd9732..93a3ebd 100644
 +  }
 +}
 +
++gcc_toolchain("x64_v8_ppc64") {
++  toolprefix = "x86_64-conda-linux-gnu-"
++
++  cc = "${toolprefix}gcc"
++  cxx = "${toolprefix}g++"
++
++  ar = "${toolprefix}ar"
++  ld = cxx
++  readelf = "${toolprefix}readelf"
++  nm = "${toolprefix}nm"
++
++  toolchain_args = {
++    current_cpu = "x64"
++    v_8_current_cpu = "ppc64"
++    current_os = "linux"
++    is_clang = false
++  }
++}
++
++gcc_toolchain("x86_v8_ppc64") {
++  toolprefix = "x86_64-conda-linux-gnu-"
++
++  cc = "${toolprefix}gcc"
++  cxx = "${toolprefix}g++"
++
++  ar = "${toolprefix}ar"
++  ld = cxx
++  readelf = "${toolprefix}readelf"
++  nm = "${toolprefix}nm"
++
++  toolchain_args = {
++    current_cpu = "x64"
++    v_8_current_cpu = "ppc64"
++    current_os = "linux"
++    is_clang = false
++  }
++}
++
  clang_toolchain("clang_x64_v8_mips64el") {
    toolchain_args = {
      current_cpu = "x64"
+@@ -265,22 +341,6 @@ gcc_toolchain("s390x") {
+   }
+ }
+ 
+-gcc_toolchain("ppc64") {
+-  cc = "gcc"
+-  cxx = "g++"
+-
+-  readelf = "readelf"
+-  nm = "nm"
+-  ar = "ar"
+-  ld = cxx
+-
+-  toolchain_args = {
+-    current_cpu = "ppc64"
+-    current_os = "linux"
+-    is_clang = false
+-  }
+-}
+-
+ gcc_toolchain("mips") {
+   toolprefix = "mips-linux-gnu-"
+ 
 -- 
 2.25.1
 
