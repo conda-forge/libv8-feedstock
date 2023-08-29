@@ -17,7 +17,7 @@ docker_image:
 glib:
 - '2'
 icu:
-- '72'
+- '73'
 target_platform:
 - linux-ppc64le
 zip_keys:
