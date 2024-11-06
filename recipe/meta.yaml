@@ -37,7 +37,7 @@ source:
       - icu-config.patch
 
 build:
-  number: 4
+  number: 5
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('libv8', max_pin="x.x.x") }}
@@ -45,6 +45,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - gn 0.0.20200909083119
     - python 3.8
