@@ -1,40 +1,50 @@
 {% set name = "libv8" %}
-{% set version = "13.3.68910305" %}
+{% set version = "13.5.212.10" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: 28bbcf132fd141fa2fb75ba8855471d30cc27d680b834a26d4409bc6a523e167
+  - url: https://github.com/v8/v8/archive/refs/tags/{{ version }}.tar.gz
+    sha256: 2c47b3de22591f4384f75aa462301eb9fdb9d661ee07f73cab95a89d0a75d5ae
     patches:
       - test-no-unitests.patch
-      - 0001-Allow-non-clang-snapshot-toolchain.patch
-  # We tarballs but don't add sha256s as they are different on every download.
+      # - 0001-Allow-non-clang-snapshot-toolchain.patch
+  # We fetch tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/6ca160d19873bc07a7e76f9d4bae4177bdef1c26.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/fcd4fbe1f0c2e18226107f7a490a914618a68330.tar.gz
     folder: build
     patches:
       - build_prefix_rpath.patch  # [osx]
       - find_mac_sdk_from_sysroot.patch
-      - no-icf.patch
-      - 0001-Add-arm64-toolchain.patch
-  - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/a82a4944a7f2496639f34a89c9923be5908b80aa.tar.gz
+      # - no-icf.patch
+      # - 0001-Add-arm64-toolchain.patch
+  - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/5e1ee241ab04b38889f8d517f2da8b3df7cfbd9a.tar.gz
     folder: third_party/jinja2
-  - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/0944e71f4b2cb9a871bcbe353f95e889b64a611a.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/markupsafe.git/+archive/9f8efc8637f847ab1ba984212598e6fb9cf1b3d4.tar.gz
     folder: third_party/markupsafe
-  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/4fe018038f87675c083d0cfb6a6b57c274fb1753.tar.gz
+  - url: https://chromium.googlesource.com/external/github.com/google/googletest.git/+archive/24a9e940d481f992ba852599c78bb2217362847b.tar.gz
     folder: third_party/googletest/src
-  - url: https://chromium.googlesource.com/chromium/src/base/trace_event/common.git/+archive/eb94f1c7aa96207f469008f29989a43feb2718f8.tar.gz
-    folder: base/trace_event/common
-  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/9893e506b3a7ea4ec68e1fcd9a374e849945f405.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/zlib.git/+archive/788cb3c270e8700b425c7bdca1f9ce6b0c1400a9.tar.gz
     folder: third_party/zlib
-  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/6a33b647c0647c3eb97eae5432153ef2dfca7baa.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp.git/+archive/2705c6655c0008cc3fb152dae27890d44bc335f1.tar.gz
+    folder: third_party/abseil-cpp
+  - url: https://chromium.googlesource.com/chromium/src/third_party/simdutf.git/+archive/5a9a2134b280c1b956ad68a0643797fe26dd1c94.tar.gz
+    folder: third_party/simdutf
+  - url: https://chromium.googlesource.com/chromium/deps/icu.git/+archive/d30b7b0bb3829f2e220df403ed461a1ede78b774.tar.gz
     folder: third_party/icu
     patches:
       - icu-build.patch
       - icu-config.patch
+  - url: https://chromium.googlesource.com/external/github.com/google/highway.git/+archive/00fe003dac355b979f36157f9407c7c46448958e.tar.gz
+    folder: third_party/highway/src
+  - url: https://chromium.googlesource.com/chromium/src/base/allocator/partition_allocator.git/+archive/46d880ff62f340854a5a70142b0abf604c7af221.tar.gz
+    folder: third_party/partition_alloc
+  - url: https://chromium.googlesource.com/external/github.com/Maratyszcza/FP16.git/+archive/0a92994d729ff76a58f692d3028ca1b64b145d91.tar.gz
+    folder: third_party/fp16/src
+  - url: https://chromium.googlesource.com/external/github.com/fastfloat/fast_float.git/+archive/cb1d42aaa1e14b09e1452cfdef373d051b8c02a4.tar.gz
+    folder: third_party/fast_float/src
 
 build:
   number: 0
@@ -45,10 +55,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
+    # - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - gn 0.0.20200909083119
-    - python 3.8
+    - gn 0.0.20250416202228
+    - python
     - setuptools
     - ninja
     - pkg-config
@@ -66,7 +76,6 @@ test:
 about:
   home: https://v8.dev/
   license: BSD-3-Clause
-  license_family: BSD
   license_file: LICENSE
   summary: V8 is Google’s open source high-performance JavaScript and WebAssembly engine, written in C++.
   dev_url: https://chromium.googlesource.com/v8/v8.git
