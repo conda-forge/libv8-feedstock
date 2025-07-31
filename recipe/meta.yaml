@@ -55,7 +55,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    # - {{ stdlib("c") }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - gn 0.0.20250416202228
     - python
