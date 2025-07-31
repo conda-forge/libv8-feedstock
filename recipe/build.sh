@@ -11,11 +11,8 @@ sed -i 's/"ABSL_ALLOCATOR_NOTHROW=1"/"ABSL_ALLOCATOR_NOTHROW=1", "_LIBCPP_DISABL
 sed -i 's/defines = \[\]/defines = ["_LIBCPP_DISABLE_AVAILABILITY"]/' third_party/highway/BUILD.gn
 sed -i 's/"BUILDING_V8_PLATFORM_SHARED"/"BUILDING_V8_PLATFORM_SHARED", "_LIBCPP_DISABLE_AVAILABILITY"/' BUILD.gn
 
-# Get clang major version because toolchain.gn has hardcoded defaults
-clang_major_version=$(clang -v 2>&1 | head -n 1 | cut -d ' ' -f 3 | cut -d '.' -f 1)
 
 cat <<EOF >build/config/gclient_args.gni
-clang_version=${clang_major_version}
 use_custom_libcxx=false
 clang_use_chrome_plugins=false
 v8_use_external_startup_data=false
@@ -36,11 +33,15 @@ if [[ "${target_platform}" =~ osx.* ]]; then
   # Horrible hack to stop BUILDCONFIG.gn from trying to load custom cxx library
   sed -i "s/is_clang \&\& (/false \&\& (/" build/config/BUILDCONFIG.gn
   echo "mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\"" >> build/config/gclient_args.gni
+
+  # Get clang major version because toolchain.gn has hardcoded defaults
+  clang_major_version=$(clang -v 2>&1 | head -n 1 | cut -d ' ' -f 3 | cut -d '.' -f 1)
+  echo "clang_version=\"${clang_major_version}\"" >> build/config/gclient_args.gni
 fi
 
 if [[ "${target_platform}" == "osx-64" ]]; then
   echo 'mac_sdk_min="10.13"' >> build/config/gclient_args.gni
-  gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"10.13\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
+  gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"10.13\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
@@ -69,7 +70,7 @@ elif [[ "${target_platform}" == linux-* ]]; then
     TARGET_CPU='target_cpu="ppc64" v8_target_cpu="ppc64" host_byteorder="little"'
   fi
 
-  gn gen out.gn "--args=target_os=\"linux\" ${TARGET_CPU:-} use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true clang_version=${clang_major_version}"
+  gn gen out.gn "--args=target_os=\"linux\" ${TARGET_CPU:-} use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true clang_version=${clang_major_version}"
   sed -i "s/ gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
   sed -i "s/ g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
   sed -i "s/ ${HOST}-gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
@@ -108,7 +109,7 @@ ninja -C out.gn v8
 
 mkdir -p $PREFIX/lib
 cp out.gn/libv8*${SHLIB_EXT} $PREFIX/lib
-cp out.gn/libthird_party${SHLIB_EXT} $PREFIX/lib
+cp out.gn/libthird_party*${SHLIB_EXT} $PREFIX/lib
 cp out.gn/libchrome_zlib${SHLIB_EXT} $PREFIX/lib
 mkdir -p $PREFIX/include
 cp -r include/* $PREFIX/include/
