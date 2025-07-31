@@ -41,8 +41,8 @@ if [[ "${target_platform}" =~ osx.* ]]; then
 fi
 
 if [[ "${target_platform}" == "osx-64" ]]; then
-  echo 'mac_sdk_min="10.13"' >> build/config/gclient_args.gni
-  gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"10.13\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
+  echo 'mac_sdk_min="11.0"' >> build/config/gclient_args.gni
+  gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"11.0\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
@@ -56,7 +56,6 @@ elif [[ "${target_platform}" == "osx-arm64" ]]; then
   sed -i "s;bin/clang;bin/${CC};g" out.gn/toolchain.ninja
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
-  sed -i "s/libs =/libs = -lz/g" out.gn/obj/mksnapshot.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
 elif [[ "${target_platform}" == linux-* ]]; then
