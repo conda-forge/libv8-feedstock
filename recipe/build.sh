@@ -30,13 +30,14 @@ EOF
 
 if [[ "${target_platform}" =~ osx.* ]]; then
   sed -i "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
+
   # Horrible hack to stop BUILDCONFIG.gn from trying to load custom cxx library
   sed -i "s/is_clang \&\& (/false \&\& (/" build/config/BUILDCONFIG.gn
+
   echo "mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\"" >> build/config/gclient_args.gni
 
   # Get clang major version because toolchain.gn has hardcoded defaults
   clang_major_version=$(clang -v 2>&1 | head -n 1 | cut -d ' ' -f 3 | cut -d '.' -f 1)
-  echo "clang_version=\"${clang_major_version}\"" >> build/config/gclient_args.gni
 fi
 
 if [[ "${target_platform}" == "osx-64" ]]; then
@@ -70,7 +71,7 @@ elif [[ "${target_platform}" == linux-* ]]; then
     TARGET_CPU='target_cpu="ppc64" v8_target_cpu="ppc64" host_byteorder="little"'
   fi
 
-  gn gen out.gn "--args=target_os=\"linux\" ${TARGET_CPU:-} use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true clang_version=${clang_major_version}"
+  gn gen out.gn "--args=target_os=\"linux\" ${TARGET_CPU:-} use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" is_component_build=true icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" use_sysroot=false is_clang=false treat_warnings_as_errors=false fatal_linker_warnings=false enable_stripping=true"
   sed -i "s/ gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja
   sed -i "s/ g++/ $(basename ${CXX})/g" out.gn/toolchain.ninja
   sed -i "s/ ${HOST}-gcc/ $(basename ${CC})/g" out.gn/toolchain.ninja

@@ -1,17 +1,17 @@
-From e2957606192bc5a2f0fb8d32fc6b7e334cae9359 Mon Sep 17 00:00:00 2001
-From: Uwe Korn <uwelk@xhochy.com>
-Date: Mon, 12 Jun 2023 10:05:21 +0000
-Subject: [PATCH] Add arm64 toolchain
+From b247b734eac30e3cfacf834f15fd733ba8c2ca25 Mon Sep 17 00:00:00 2001
+From: Daniel Nachun <daniel.nachun@gmail.com>
+Date: Thu, 31 Jul 2025 13:59:04 -0500
+Subject: [PATCH] Add-arm64-toolchain
 
 ---
- toolchain/linux/BUILD.gn | 92 +++++++++++++++++++++++++++++++++-------
- 1 file changed, 76 insertions(+), 16 deletions(-)
+ toolchain/linux/BUILD.gn | 95 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 76 insertions(+), 19 deletions(-)
 
 diff --git a/toolchain/linux/BUILD.gn b/toolchain/linux/BUILD.gn
-index bbd9732..dc27857 100644
+index a6e20a0..44dc225 100644
 --- a/toolchain/linux/BUILD.gn
 +++ b/toolchain/linux/BUILD.gn
-@@ -48,6 +48,25 @@ gcc_toolchain("arm64") {
+@@ -51,6 +51,25 @@ gcc_toolchain("arm64") {
    }
  }
  
@@ -37,7 +37,7 @@ index bbd9732..dc27857 100644
  gcc_toolchain("arm") {
    toolprefix = "arm-linux-gnueabihf-"
  
-@@ -137,6 +156,63 @@ clang_toolchain("clang_x64_v8_arm64") {
+@@ -151,6 +170,63 @@ clang_v8_toolchain("clang_x64_v8_arm64") {
    }
  }
  
@@ -98,10 +98,10 @@ index bbd9732..dc27857 100644
 +  }
 +}
 +
- clang_toolchain("clang_x64_v8_mips64el") {
+ clang_v8_toolchain("clang_x64_v8_mips64el") {
    toolchain_args = {
      current_cpu = "x64"
-@@ -265,22 +341,6 @@ gcc_toolchain("s390x") {
+@@ -311,25 +387,6 @@ gcc_toolchain("s390x") {
    }
  }
  
@@ -117,6 +117,9 @@ index bbd9732..dc27857 100644
 -  toolchain_args = {
 -    current_cpu = "ppc64"
 -    current_os = "linux"
+-
+-    # remote execution does not support gcc.
+-    use_remoteexec = false
 -    is_clang = false
 -  }
 -}
@@ -125,5 +128,5 @@ index bbd9732..dc27857 100644
    toolprefix = "mips-linux-gnu-"
  
 -- 
-2.25.1
+2.49.0
 
