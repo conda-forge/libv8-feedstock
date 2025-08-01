@@ -54,7 +54,7 @@ index a6e20a0..44dc225 100644
 +
 +  toolchain_args = {
 +    current_cpu = "x64"
-+    v_8_current_cpu = "arm64"
++    v8_current_cpu = "arm64"
 +    current_os = "linux"
 +    is_clang = false
 +  }
@@ -73,7 +73,7 @@ index a6e20a0..44dc225 100644
 +
 +  toolchain_args = {
 +    current_cpu = "x64"
-+    v_8_current_cpu = "ppc64"
++    v8_current_cpu = "ppc64"
 +    current_os = "linux"
 +    is_clang = false
 +  }
@@ -92,7 +92,7 @@ index a6e20a0..44dc225 100644
 +
 +  toolchain_args = {
 +    current_cpu = "x64"
-+    v_8_current_cpu = "ppc64"
++    v8_current_cpu = "ppc64"
 +    current_os = "linux"
 +    is_clang = false
 +  }
