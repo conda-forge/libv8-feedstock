@@ -1,6 +1,6 @@
-#!/bin/bash
-set -euo pipefail
-set -x
+#!/usr/bin/env bash
+
+set -o xtrace -o nounset -o pipefail -o errexit
 
 export LD_LIBRARY_PATH=$PREFIX/lib
 sed -i 's/v8_enable_snapshot_compression = true/v8_enable_snapshot_compression = false/g' BUILD.gn
@@ -9,7 +9,7 @@ sed -i 's/exec_script_allowlist/exec_script_whitelist/g' build/dotfile_settings.
 # Add _LIBCPP_DISABLE_AVAILABILITY where needed since CXXFLAGS are ignored
 sed -i 's/"ABSL_ALLOCATOR_NOTHROW=1"/"ABSL_ALLOCATOR_NOTHROW=1", "_LIBCPP_DISABLE_AVAILABILITY"/' third_party/abseil-cpp/BUILD.gn
 sed -i 's/defines = \[\]/defines = ["_LIBCPP_DISABLE_AVAILABILITY"]/' third_party/highway/BUILD.gn
-sed -i 's/"BUILDING_V8_PLATFORM_SHARED"/"BUILDING_V8_PLATFORM_SHARED", "_LIBCPP_DISABLE_AVAILABILITY"/' BUILD.gn
+sed -i 's/"BUILDING_V8_PLATFORM_SHARED"/"BUILDING_V8_PLATFORM_SHARED", "_LIBCPP_DISABLE_AVAILABILITY", "MFD_CLOEXEC=0"/' BUILD.gn
 
 
 cat <<EOF >build/config/gclient_args.gni
@@ -45,6 +45,7 @@ if [[ "${target_platform}" == "osx-64" ]]; then
   gn gen out.gn "--args=use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"10.13\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
 
   # Explicitly link to libz, otherwise _compressBound cannot be found
+  sed -i "s/libs =/libs = -lz/g" out.gn/obj/mksnapshot.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
   # Force linking to conda libcxx, not system one
