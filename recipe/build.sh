@@ -69,7 +69,6 @@ elif [[ "${target_platform}" == "osx-arm64" ]]; then
   sed -i "s?-Wl,--no-warn-duplicate-rpath?-L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/third_party/zlib/zlib.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libbase.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libplatform.ninja
-  sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/bytecode_builtins_list_generator.ninja
 elif [[ "${target_platform}" == linux-* ]]; then
   echo 'use_sysroot=false' >> build/config/gclient_args.gni
   echo 'is_clang=false' >> build/config/gclient_args.gni
