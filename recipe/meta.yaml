@@ -10,7 +10,7 @@ source:
     sha256: 2c47b3de22591f4384f75aa462301eb9fdb9d661ee07f73cab95a89d0a75d5ae
     patches:
       - test-no-unitests.patch
-      - 0002-disable-CLOEXEC-on-Linux.patch
+      - disable-CLOEXEC-on-Linux.patch
       # - 0001-Allow-non-clang-snapshot-toolchain.patch
   # We fetch tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
@@ -20,7 +20,7 @@ source:
       - build_prefix_rpath.patch  # [osx]
       - find_mac_sdk_from_sysroot.patch
       - 0001-Add-arm64-toolchain.patch
-      - 0001-disable-vendored-libc++.patch
+      - disable-vendored-libc++.patch
       # - no-icf.patch
   - url: https://chromium.googlesource.com/chromium/src/third_party/jinja2.git/+archive/5e1ee241ab04b38889f8d517f2da8b3df7cfbd9a.tar.gz
     folder: third_party/jinja2
