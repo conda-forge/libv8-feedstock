@@ -30,10 +30,6 @@ EOF
 
 if [[ "${target_platform}" =~ osx.* ]]; then
   sed -i "s;@PREFIX@;${PREFIX};g" build/config/mac/BUILD.gn
-
-  # Horrible hack to stop BUILDCONFIG.gn from trying to load custom cxx library
-  sed -i "s/is_clang \&\& (/false \&\& (/" build/config/BUILDCONFIG.gn
-
   echo "mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\"" >> build/config/gclient_args.gni
 
   # Get clang major version because toolchain.gn has hardcoded defaults

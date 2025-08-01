@@ -1,0 +1,50 @@
+From 8e6d20e25e55fe709f18dd15ce931e76405f58ae Mon Sep 17 00:00:00 2001
+From: Daniel Nachun <daniel.nachun@gmail.com>
+Date: Fri, 1 Aug 2025 12:22:07 -0500
+Subject: [PATCH 2/2] disable CLOEXEC on Linux
+
+---
+ src/wasm/wasm-objects.cc | 26 --------------------------
+ 1 file changed, 26 deletions(-)
+
+diff --git a/src/wasm/wasm-objects.cc b/src/wasm/wasm-objects.cc
+index 1521f0b4..b29cdef4 100644
+--- a/src/wasm/wasm-objects.cc
++++ b/src/wasm/wasm-objects.cc
+@@ -1171,33 +1171,7 @@ int32_t WasmMemoryObject::Grow(Isolate* isolate,
+ 
+ MaybeDirectHandle<WasmMemoryMapDescriptor>
+ WasmMemoryMapDescriptor::NewFromAnonymous(Isolate* isolate, size_t length) {
+-#if V8_TARGET_OS_LINUX
+-  CHECK(v8_flags.experimental_wasm_memory_control);
+-  DirectHandle<JSFunction> descriptor_ctor(
+-      isolate->native_context()->wasm_memory_map_descriptor_constructor(),
+-      isolate);
+-
+-  auto descriptor_object = Cast<WasmMemoryMapDescriptor>(
+-      isolate->factory()->NewJSObject(descriptor_ctor, AllocationType::kOld));
+-
+-  int file_descriptor = memfd_create("wasm_memory_map_descriptor", MFD_CLOEXEC);
+-  printf("Create file descriptor: %d\n", file_descriptor);
+-  if (file_descriptor == -1) {
+-    return {};
+-  }
+-  int ret_val = ftruncate(file_descriptor, length);
+-  if (ret_val == -1) {
+-    return {};
+-  }
+-  v8::WasmMemoryMapDescriptor::WasmFileDescriptor wasm_fd =
+-      static_cast<v8::WasmMemoryMapDescriptor::WasmFileDescriptor>(
+-          file_descriptor);
+-  descriptor_object->set_file_descriptor(wasm_fd);
+-
+-  return descriptor_object;
+-#else   // V8_TARGET_OS_LINUX
+   return {};
+-#endif  // V8_TARGET_OS_LINUX
+ }
+ 
+ DirectHandle<WasmMemoryMapDescriptor>
+-- 
+2.49.0
+
