@@ -47,11 +47,12 @@ if [[ "${target_platform}" == "osx-64" ]]; then
   # Explicitly link to libz, otherwise _compressBound cannot be found
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
+  # Force linking to conda libcxx, not system one
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/third_party/abseil-cpp/absl.ninja
   sed -i "s?-Wl,--no-warn-duplicate-rpath?-L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/third_party/zlib/zlib.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libbase.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libplatform.ninja
-  sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/bytecode_builtins_list_generator
+  sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/bytecode_builtins_list_generator.ninja
 elif [[ "${target_platform}" == "osx-arm64" ]]; then
   echo 'mac_sdk_min="11.0"' >> build/config/gclient_args.gni
   gn gen out.gn "--args=target_cpu=\"arm64\" use_custom_libcxx=false clang_use_chrome_plugins=false v8_use_external_startup_data=false is_debug=false clang_base_path=\"${BUILD_PREFIX}\" mac_sdk_min=\"11.0\" is_component_build=true mac_sdk_path=\"${CONDA_BUILD_SYSROOT}\" icu_use_data_file=false icu_use_system=true icu_include_dir=\"$PREFIX/include\" icu_lib_dir=\"$PREFIX/lib\" enable_stripping=true clang_version=${clang_major_version}"
@@ -62,10 +63,12 @@ elif [[ "${target_platform}" == "osx-arm64" ]]; then
   # Explicitly link to libz, otherwise _compressBound cannot be found
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8.ninja
   sed -i "s/libs =/libs = -lz/g" out.gn/obj/v8_for_testing.ninja
+  # Force linking to conda libcxx, not system one
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/third_party/abseil-cpp/absl.ninja
   sed -i "s?-Wl,--no-warn-duplicate-rpath?-L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/third_party/zlib/zlib.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libbase.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libplatform.ninja
+  sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/bytecode_builtins_list_generator.ninja
 elif [[ "${target_platform}" == linux-* ]]; then
   echo 'use_sysroot=false' >> build/config/gclient_args.gni
   echo 'is_clang=false' >> build/config/gclient_args.gni
