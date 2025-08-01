@@ -9,7 +9,7 @@ sed -i 's/exec_script_allowlist/exec_script_whitelist/g' build/dotfile_settings.
 # Add _LIBCPP_DISABLE_AVAILABILITY where needed since CXXFLAGS are ignored
 sed -i 's/"ABSL_ALLOCATOR_NOTHROW=1"/"ABSL_ALLOCATOR_NOTHROW=1", "_LIBCPP_DISABLE_AVAILABILITY"/' third_party/abseil-cpp/BUILD.gn
 sed -i 's/defines = \[\]/defines = ["_LIBCPP_DISABLE_AVAILABILITY"]/' third_party/highway/BUILD.gn
-sed -i 's/"BUILDING_V8_PLATFORM_SHARED"/"BUILDING_V8_PLATFORM_SHARED", "_LIBCPP_DISABLE_AVAILABILITY", "MFD_CLOEXEC=0"/' BUILD.gn
+sed -i 's/"BUILDING_V8_PLATFORM_SHARED"/"BUILDING_V8_PLATFORM_SHARED", "_LIBCPP_DISABLE_AVAILABILITY"/' BUILD.gn
 
 
 cat <<EOF >build/config/gclient_args.gni
@@ -71,6 +71,8 @@ elif [[ "${target_platform}" == "osx-arm64" ]]; then
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libbase.ninja
   sed -i "s?ldflags = -Wl,--no-warn-duplicate-rpath?ldflags = -L${PREFIX}/lib -Wl,--no-warn-duplicate-rpath?" out.gn/obj/v8_libplatform.ninja
 elif [[ "${target_platform}" == linux-* ]]; then
+  sed -i 's/defines = \[\]/defines = ["MFD_CLOEXEC=0"]/' build/config/BUILD.gn
+
   echo 'use_sysroot=false' >> build/config/gclient_args.gni
   echo 'is_clang=false' >> build/config/gclient_args.gni
   echo 'treat_warnings_as_errors=false' >> build/config/gclient_args.gni
