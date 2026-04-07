@@ -21,7 +21,7 @@ cxx_compiler_version:
 glib:
 - '2'
 icu:
-- '73'
+- '75'
 libv8:
 - 8.9.83
 macos_machine:
