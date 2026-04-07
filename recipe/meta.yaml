@@ -1,8 +1,7 @@
-{% set name = "libv8" %}
 {% set version = "13.5.212.10" %}
 
 package:
-  name: {{ name|lower }}
+  name: libv8
   version: {{ version }}
 
 source:
@@ -14,7 +13,7 @@ source:
       # - 0001-Allow-non-clang-snapshot-toolchain.patch
   # We fetch tarballs but don't add sha256s as they are different on every download.
   # Sychronized hashes from https://github.com/v8/v8/blob/{{ version }}/DEPS
-  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/fcd4fbe1f0c2e18226107f7a490a914618a68330.tar.gz
+  - url: https://chromium.googlesource.com/chromium/src/build.git/+archive/efb3303345a5501074564393470197a904b4afb7.tar.gz
     folder: build
     patches:
       - build_prefix_rpath.patch  # [osx]
