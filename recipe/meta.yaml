@@ -1,5 +1,5 @@
 {% set name = "libv8" %}
-{% set version = "8.9.83" %}
+{% set version = "13.3.68760228" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/v8/v8/archive/{{ version }}.tar.gz
-    sha256: 8101bb87021212706cb0056deaad04bce8faaca54e5b5aa30397d23cc56cc107
+    sha256: 0fb7e2cfd9fdd4c8dc39627bf68f98737864eb1053ad376fe5d8213accab0ccb
     patches:
       - test-no-unitests.patch
       - 0001-Allow-non-clang-snapshot-toolchain.patch
@@ -37,7 +37,7 @@ source:
       - icu-config.patch
 
 build:
-  number: 4
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('libv8', max_pin="x.x.x") }}
@@ -45,6 +45,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - gn 0.0.20200909083119
     - python 3.8
