@@ -1,16 +1,32 @@
---- config.gni	2020-07-20 16:59:16.000000000 +0200
-+++ config.gni	2020-07-20 16:59:35.000000000 +0200
-@@ -9,4 +9,13 @@
-   # If true, compile icu into a standalone static library. Currently this is
-   # only useful on Chrome OS.
-   icu_disable_thin_archive = false
+From 7c5982b04e26e61baa45096c80bcde47363a45e0 Mon Sep 17 00:00:00 2001
+From: Daniel Nachun <daniel.nachun@gmail.com>
+Date: Wed, 16 Apr 2025 23:12:23 -0700
+Subject: [PATCH] update patch
+
+---
+ config.gni | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/config.gni b/config.gni
+index 5263004..3147524 100644
+--- a/config.gni
++++ b/config.gni
+@@ -28,6 +28,15 @@ if (defined(is_fuchsia_tree) && is_fuchsia_tree) {
+     # inside the Fuchsia source tree.
+     icu_fuchsia_override_data_dir = ""
+ 
++    # Tells that the system version of ICU should be used
++    icu_use_system = false
 +
-+  # Tells that the system version of ICU should be used
-+  icu_use_system = false
++    # Include directory for system ICU
++    icu_include_dir = "/usr/include/"
 +
-+  # Include directory for system ICU
-+  icu_include_dir = "/usr/include/"
++    # System library directory for system ICU
++    icu_lib_dir = "/usr/lib"
 +
-+  # System library directory for system ICU
-+  icu_lib_dir = "/usr/lib"
- }
+     # If set, the ":icudata" target will copy the ICU data to $root_build_dir.
+     icu_copy_icudata_to_root_build_dir = true
+ 
+-- 
+2.49.0
+
